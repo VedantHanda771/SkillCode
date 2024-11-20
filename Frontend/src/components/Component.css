@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap');
+
+
+.sec{
+    font-family: "New Amsterdam", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* .sec1{
+    width: 100% ;
+    height: 100%;
+} */
+
+.sec1,  .sec3 {
+    height: 100vh; /* Each section will take up the full height of the viewport */
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
+   .sec2 {
+    height: 100vh; /* Each section will take up the full height of the viewport */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+  
+  .sec1{
+    height: 120vh;
+  }
+  
+  .empty-screen {
+    height: 70vh; /* Takes up the full height of the viewport */
+  }
