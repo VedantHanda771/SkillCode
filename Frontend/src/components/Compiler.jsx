@@ -55,49 +55,62 @@ const Compiler = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto p-4 text-white style={{ backgroundColor: 'transparent' }}">
-            <h2 className="text-2xl font-semibold mb-4">Code Compiler</h2>
-            <div className="mb-4">
-                <select
-                    value={language}
-                    onChange={handleLanguageChange}
-                    className="border border-gray-300 p-2 rounded bg-gray-700 text-white w-full"
-                >
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                </select>
-            </div>
-            <div className="mb-4">
-                <textarea
-                    value={code}
-                    onChange={handleCodeChange}
-                    rows="10"
-                    className="w-full border border-gray-300 p-2 rounded bg-gray-700 text-white"
-                />
-            </div>
-            <div className="mb-4">
-                <textarea
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    rows="5"
-                    placeholder="Enter input here (optional)"
-                    className="w-full border border-gray-300 p-2 rounded bg-gray-700 text-white placeholder-gray-400"
-                />
-            </div>
-            <div className="mb-4">
-                <button
-                    onClick={runCode}
-                    disabled={loading}
-                    className={`bg-blue-500 text-white p-2 rounded w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
-                    {loading ? 'Running...' : 'Run Code'}
-                </button>
-            </div>
-            <div className="output-area border border-gray-300 p-4 rounded bg-gray-700">
-                <h3 className="text-xl font-semibold">Output:</h3>
-                <pre className="whitespace-pre-wrap">{output}</pre>
+        <div className="flex justify-center items-center min-h-screen bg-transparent">
+            <div className="bg-black bg-opacity-40 p-6 rounded-lg shadow-xl backdrop-blur-md w-full max-w-4xl">
+                <h2 className="text-4xl font-semibold text-center text-white mb-6"
+                 style={{
+                    color: "#ffffff", 
+                    fontFamily: "'New Amsterdam', sans-serif", 
+                    fontWeight: 500,
+                    fontStyle: "normal"
+                }}>Code Compiler</h2>
+                
+                <div className="mb-6">
+                    <select
+                        value={language}
+                        onChange={handleLanguageChange}
+                        className="w-full p-3 rounded-lg border-2 border-gray-700 bg-gray-800 text-white focus:outline-none focus:border-indigo-500"
+                    >
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="cpp">C++</option>
+                        <option value="java">Java</option>
+                    </select>
+                </div>
+                
+                <div className="mb-6">
+                    <textarea
+                        value={code}
+                        onChange={handleCodeChange}
+                        rows="12"
+                        className="w-full p-3 rounded-lg border-2 border-gray-700 bg-gray-800 text-white focus:outline-none focus:border-indigo-500"
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <textarea
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        rows="5"
+                        placeholder="Enter input here (optional)"
+                        className="w-full p-3 rounded-lg border-2 border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500"
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <button
+                        onClick={runCode}
+                        disabled={loading}
+                        className={`w-full p-3 rounded-lg text-white ${loading ? 'bg-gray-600' : 'bg-indigo-500 hover:bg-indigo-600'} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50`}
+                    >
+                        {loading ? 'Running...' : 'Run Code'}
+                    </button>
+                </div>
+
+                <div className="mt-8 p-4 border-2 border-gray-700 rounded-lg bg-gray-800 bg-opacity-50 backdrop-blur-md">
+                    <h3 className="text-xl font-semibold text-white">Output:</h3>
+                    <pre className="whitespace-pre-wrap text-white">{output}</pre>
+                </div>
             </div>
         </div>
     );

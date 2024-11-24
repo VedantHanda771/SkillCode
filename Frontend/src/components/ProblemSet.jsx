@@ -59,10 +59,10 @@ function ProblemSet() {
                                     questions.map((question) => (
                                         <tr
                                             key={question._id}
-                                            className="hover:bg-gray-700 transition-all border-b border-gray-700"
+                                            className="hover:bg-black transition-all border-b border-gray-700"
                                         >
                                             <td className="p-2">
-                                                <Link to={`/problems/${question.Q_name}`} className="text-blue-500 hover:underline">
+                                                <Link to={`/problems/${question.Q_name}`} className="text-white hover:underline">
                                                     {question.Q_name}
                                                 </Link>
                                             </td>

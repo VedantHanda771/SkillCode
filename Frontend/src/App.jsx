@@ -1,31 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Laptop from './components/Laptop';
-import Navbar from './components/Navbar';
-import Text from './components/Text';
-import ShaderBackground from './components/ShaderBackground';
-import Content from './components/Content';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Compiler from './components/Compiler';
-import ProblemSet from './components/ProblemSet';
-import SolveProblem from './components/SolveProblem';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Lazy load components
+const Laptop = lazy(() => import('./components/Laptop'));
+const Navbar = lazy(() => import('./components/Navbar'));
+const Text = lazy(() => import('./components/Text'));
+const ShaderBackground = lazy(() => import('./components/ShaderBackground'));
+const Content = lazy(() => import('./components/Content'));
+const Login = lazy(() => import('./components/Login'));
+const Signup = lazy(() => import('./components/Signup'));
+const Compiler = lazy(() => import('./components/Compiler'));
+const ProblemSet = lazy(() => import('./components/ProblemSet'));
+const SolveProblem = lazy(() => import('./components/SolveProblem'));
+
+// Lazy load the CourseLayout component
+const CourseLayout = lazy(() => import('./components/CourseLayout'));
 
 export default function App() {
   const textRef = useRef(null);
   const [isLidOpen, setIsLidOpen] = useState(false);
 
-  // ScrollTrigger animation for Text component
   useEffect(() => {
-    const scrollTrigger = ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: textRef.current,
-      start: 'top top',
-      end: 'bottom top',
       onEnter: () => {
+        gsap.to(textRef.current, { opacity: 0, duration: 1, ease: 'power1.inOut' });
+      },
+      onEnterBack: () => {
+        gsap.to(textRef.current, { opacity: 1, duration: 1, ease: 'power1.inOut' });
+      },
+      onLeave: () => {
         gsap.to(textRef.current, { opacity: 0, duration: 1, ease: 'power1.inOut' });
       },
       onLeaveBack: () => {
@@ -33,11 +41,9 @@ export default function App() {
       },
     });
 
-    // Cleanup on component unmount
-    return () => scrollTrigger.kill();
+    return () => trigger.kill(); // Cleanup the specific ScrollTrigger
   }, []);
 
-  // GSAP effect for lid open/close animation
   useEffect(() => {
     gsap.to(textRef.current, {
       opacity: isLidOpen ? 0 : 1,
@@ -48,41 +54,36 @@ export default function App() {
 
   return (
     <Router>
-      <div className="relative min-h-screen">
-        <ShaderBackground /> {/* Background Shader */}
-        <div className="relative z-10">
-          <Navbar /> {/* Navigation Bar */}
-
-          <Routes>
-            {/* Home Route */}
-            <Route
-              path="/"
-              element={
-                <>
-                  <Laptop onLidStateChange={setIsLidOpen} />
-                  <div ref={textRef} className="text-white relative" style={{ height: '100px' }}>
-                    <Text /> {/* Text component */}
-                  </div>
-                  <Content /> {/* Other content */}
-                </>
-              }
-            />
-
-            {/* Authentication Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-
-            {/* Compiler Route */}
-            <Route path="/compiler" element={<Compiler />} />
-
-            {/* Problem Set Route */}
-            <Route path="/problems" element={<ProblemSet />} />
-
-            {/* Solve Problem Route with problem name */}
-            <Route path="/problems/:name" element={<SolveProblem />} />
-          </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="relative min-h-screen">
+          <ShaderBackground />
+          <div className="relative z-10">
+            <Navbar />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Laptop onLidStateChange={setIsLidOpen} />
+                    <div ref={textRef} className="text-white relative" style={{ height: '100px' }}>
+                      <Text />
+                    </div>
+                    <Content />
+                  </>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/compiler" element={<Compiler />} />
+              <Route path="/problems" element={<ProblemSet />} />
+              <Route path="/problems/:name" element={<SolveProblem />} />
+              
+              {/* Add Course Route */}
+              <Route path="/courses" element={<CourseLayout />} />
+            </Routes>
+          </div>
         </div>
-      </div>
+      </Suspense>
     </Router>
   );
 }
