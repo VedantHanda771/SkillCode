@@ -27,8 +27,10 @@ export default function App() {
   useEffect(() => {
     const trigger = ScrollTrigger.create({
       trigger: textRef.current,
+      start: "top center",
+      end: "bottom center",
       onEnter: () => {
-        gsap.to(textRef.current, { opacity: 0, duration: 1, ease: 'power1.inOut' });
+        gsap.to(textRef.current, { opacity: 1, duration: 1, ease: 'power1.inOut' });
       },
       onEnterBack: () => {
         gsap.to(textRef.current, { opacity: 1, duration: 1, ease: 'power1.inOut' });

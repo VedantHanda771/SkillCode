@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Added useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
+import Editor from '@monaco-editor/react';
 
 const SolveProblem = () => {
   const { name } = useParams(); // Fetch problem name from URL
@@ -32,10 +33,6 @@ const SolveProblem = () => {
     fetchQuestion();
   }, [name]);
 
-  const handleInputChange = (e) => setCode(e.target.value);
-
-  const handleLanguageChange = (e) => setLanguage(e.target.value);
-
   const runCode = async () => {
     setLoading(true);
     setOutput('');
@@ -61,11 +58,11 @@ const SolveProblem = () => {
         setTestPassed(isTestPassed);
       } else {
         console.error('Error running the code:', data.error);
-        setError(data.error); // Set error if available
+        setError(data.error);
       }
     } catch (err) {
       console.error('Error:', err.message);
-      setError(err.message); // Handle fetch errors
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -108,17 +105,18 @@ const SolveProblem = () => {
         <div className="flex mt-8 space-x-6">
           {/* Code Section */}
           <div className="bg-gray-800 bg-opacity-50 w-2/3 p-4 rounded-lg shadow-lg backdrop-blur-lg">
-            <textarea
-              className="bg-gray-700 bg-opacity-30 w-full h-64 p-4 text-green-200 font-mono rounded-lg"
+            <Editor
+              height="500px"
+              language={language} // Dynamically change language
               value={code}
-              onChange={handleInputChange}
-              placeholder="Write your code here..."
+              theme="vs-dark"
+              onChange={(value) => setCode(value || '')}
             />
             <div className="mt-4 flex space-x-4">
               <select
                 className="bg-gray-700 bg-opacity-60 text-gray-200 p-2 rounded"
                 value={language}
-                onChange={handleLanguageChange}
+                onChange={(e) => setLanguage(e.target.value)}
               >
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>
@@ -142,32 +140,31 @@ const SolveProblem = () => {
           </div>
 
           {/* Testcase and Output Section */}
-<div className="bg-gray-800 bg-opacity-50 w-1/3 p-4 rounded-lg shadow-lg backdrop-blur-lg">
-  <h3 className="text-xl mb-4">Testcase:</h3>
-  <div className="bg-gray-700 bg-opacity-30 p-2 rounded">
-    {question.Q_input} {/* Dynamically displaying the test case */}
-  </div>
-  <div className="mt-2 bg-gray-700 bg-opacity-30 p-2 rounded">
-    Expected Output: {question.Q_output} {/* Dynamically displaying the expected output */}
-  </div>
+          <div className="bg-gray-800 bg-opacity-50 w-1/3 p-4 rounded-lg shadow-lg backdrop-blur-lg">
+            <h3 className="text-xl mb-4">Testcase:</h3>
+            <div className="bg-gray-700 bg-opacity-30 p-2 rounded">
+              {question.Q_input}
+            </div>
+            <div className="mt-2 bg-gray-700 bg-opacity-30 p-2 rounded">
+              Expected Output: {question.Q_output}
+            </div>
 
-  {testPassed !== null && (
-    <div
-      className={`mt-6 p-4 rounded ${
-        testPassed ? 'bg-green-500' : 'bg-red-500'
-      }`}
-    >
-      <h3 className="text-white text-lg font-semibold">
-        Test Case {testPassed ? 'Passed' : 'Failed'}
-      </h3>
-      <p className="text-white">Your output:</p>
-      <pre>{output}</pre>
-      <p className="text-white">Expected output:</p>
-      <pre>{question.Q_output}</pre>
-    </div>
-  )}
-</div>
-
+            {testPassed !== null && (
+              <div
+                className={`mt-6 p-4 rounded ${
+                  testPassed ? 'bg-green-500' : 'bg-red-500'
+                }`}
+              >
+                <h3 className="text-white text-lg font-semibold">
+                  Test Case {testPassed ? 'Passed' : 'Failed'}
+                </h3>
+                <p className="text-white">Your output:</p>
+                <pre>{output}</pre>
+                <p className="text-white">Expected output:</p>
+                <pre>{question.Q_output}</pre>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Error Box */}
