@@ -104,7 +104,8 @@ const Compiler = () => {
                         onChange={(e) => setInputValue(e.target.value)}
                         rows="5"
                         placeholder="Enter input here (optional)"
-                        className="w-full p-3 rounded-lg border-2 border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500"
+                        className="w-full p-3 rounded-lg border-2 border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:outline-none "
+                        style={{backgroundColor: '#1E1E1E'}}
                     />
                 </div>
 

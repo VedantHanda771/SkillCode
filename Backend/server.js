@@ -26,8 +26,8 @@ if (!SECRET_KEY || !process.env.MONGODB_URL) {
 // MongoDB connection
 mongoose
   .connect(process.env.MONGODB_URL, {
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => {
@@ -213,8 +213,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-
 // Course Schema
 const courseSchema = new mongoose.Schema({
   Course_id: { type: String, required: true, unique: true },
@@ -253,7 +251,76 @@ app.get('/courses/:id', async (req, res) => {
   }
 });
 
+// Admin Endpoint to Add a Question
+app.post('/questions', authenticateJWT, async (req, res) => {
+  const { Q_name, Q_explanation, Q_input, Q_output, TypeOfQues, Solved, Comp_name } = req.body;
+
+  try {
+    const newQuestion = new Question({ Q_name, Q_explanation, Q_input, Q_output, TypeOfQues, Solved, Comp_name });
+    await newQuestion.save();
+
+    res.status(201).json({ message: 'Question added successfully', question: newQuestion });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/getUser/:username', (req, res) => {
+  const { username } = req.params;
+
+  // Validate the username parameter
+  if (!username || typeof username !== 'string') {
+    return res.status(400).json({ success: false, message: 'Invalid username provided' });
+  }
+
+  console.log('Searching for user:', username);  // Debugging log
+
+  User.findOne({ U_name: username })
+    .then(user => {
+      if (user) {
+        res.json({ success: true, user });
+      } else {
+        console.log('User not found:', username);  // Debugging log
+        res.status(404).json({ success: false, message: 'User not found' });
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching user:', err);
+      res.status(500).json({ success: false, message: 'Error fetching user data' });
+    });
+});
+
+
+
+
+app.post('/submitCode', async (req, res) => {
+  const { user, Q_id, code } = req.body;
+
+  if (!user || !questionId || !code) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+
+  try {
+    // Save code to the database
+    await CodeModel.create({
+      user,
+      Q_id,
+      code,
+      createdAt: new Date(),
+    });
+    res.status(200).json({ message: 'Code saved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving code', error });
+  }
+});
+
+
+
+
+
 
 
 // Start the server
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

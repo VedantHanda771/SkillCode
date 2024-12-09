@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Register GSAP plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // Lazy load components
@@ -16,36 +17,33 @@ const Signup = lazy(() => import('./components/Signup'));
 const Compiler = lazy(() => import('./components/Compiler'));
 const ProblemSet = lazy(() => import('./components/ProblemSet'));
 const SolveProblem = lazy(() => import('./components/SolveProblem'));
-
-// Lazy load the CourseLayout component
 const CourseLayout = lazy(() => import('./components/CourseLayout'));
+const Roadmaps = lazy(() => import('./components/Roadmap'));
+const AddQuestion = lazy(() => import('./components/AddQuestion'));
 
 export default function App() {
   const textRef = useRef(null);
   const [isLidOpen, setIsLidOpen] = useState(false);
 
+  // ScrollTrigger Effect for Text
   useEffect(() => {
     const trigger = ScrollTrigger.create({
       trigger: textRef.current,
-      start: "top center",
-      end: "bottom center",
+      start: 'top center',
+      end: 'bottom center',
       onEnter: () => {
-        gsap.to(textRef.current, { opacity: 1, duration: 1, ease: 'power1.inOut' });
-      },
-      onEnterBack: () => {
         gsap.to(textRef.current, { opacity: 1, duration: 1, ease: 'power1.inOut' });
       },
       onLeave: () => {
         gsap.to(textRef.current, { opacity: 0, duration: 1, ease: 'power1.inOut' });
       },
-      onLeaveBack: () => {
-        gsap.to(textRef.current, { opacity: 1, duration: 1, ease: 'power1.inOut' });
-      },
     });
 
-    return () => trigger.kill(); // Cleanup the specific ScrollTrigger
+    // Cleanup on component unmount
+    return () => trigger.kill();
   }, []);
 
+  // Lid State Effect
   useEffect(() => {
     gsap.to(textRef.current, {
       opacity: isLidOpen ? 0 : 1,
@@ -56,32 +54,52 @@ export default function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <div className="relative min-h-screen">
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center min-h-screen text-white bg-black">
+            <p>Loading...</p>
+          </div>
+        }
+      >
+        <div className="relative min-h-screen bg-gray-900">
+          {/* Shader Background */}
           <ShaderBackground />
+
+          {/* Main Content */}
           <div className="relative z-10">
             <Navbar />
             <Routes>
+              {/* Home Route */}
               <Route
                 path="/"
                 element={
                   <>
                     <Laptop onLidStateChange={setIsLidOpen} />
-                    <div ref={textRef} className="text-white relative" style={{ height: '100px' }}>
+                    <div
+                      ref={textRef}
+                      className="text-white text-center p-4"
+                      style={{ opacity: 1, transition: 'opacity 0.5s ease' }}
+                    >
                       <Text />
                     </div>
                     <Content />
                   </>
                 }
               />
+
+              {/* Auth Routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+
+              {/* Compiler & Problems Routes */}
               <Route path="/compiler" element={<Compiler />} />
               <Route path="/problems" element={<ProblemSet />} />
               <Route path="/problems/:name" element={<SolveProblem />} />
-              
-              {/* Add Course Route */}
+
+              {/* Additional Features */}
               <Route path="/courses" element={<CourseLayout />} />
+              <Route path="/roadmaps" element={<Roadmaps />} />
+              <Route path="/addquestion" element={<AddQuestion />} />
             </Routes>
           </div>
         </div>
