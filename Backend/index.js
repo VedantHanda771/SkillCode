@@ -88,6 +88,11 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
+app.post('/', (req, res) => {
+  res.json({ message: 'Hello World!' });
+
+});
+
 // Endpoint to execute code
 app.post('/run', (req, res) => {
   const { language, code, input } = req.body;
