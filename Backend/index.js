@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+// const path = require('path');
 
 // Load environment variables
 dotenv.config();
@@ -16,6 +17,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.JWT_SECRET;
+
+const _dirname = path.resolve();
 
 // Ensure environment variables are set
 if (!SECRET_KEY || !process.env.MONGODB_URL) {
@@ -96,9 +99,9 @@ const authenticateJWT = (req, res, next) => {
 
 
 
-app.get("/", (req, res) => {
-  res.send("CheatCode Backend API");
-});
+// app.get("/", (req, res) => {
+//   res.send("CheatCode Backend API");
+// });
 
 // Endpoint to execute code
 app.post('/run', (req, res) => {
@@ -415,9 +418,10 @@ app.post('/submitCode', async (req, res) => {
 
 // Endpoint to get the logged-in user's profile
 
-
-
-
+app.use(express.static(path.join(_dirname, '/Frontend/dist')));
+app.get('*', (_,res) => {
+  res.sendFile(path.resolve(_dirname, "Frontend", "dist", "index.html"));
+});
 
 // Start the server
 app.listen(PORT, () => {
