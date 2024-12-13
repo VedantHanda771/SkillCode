@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 // const path = require('path');
 
@@ -99,9 +99,7 @@ const authenticateJWT = (req, res, next) => {
 
 
 
-// app.get("/", (req, res) => {
-//   res.send("CheatCode Backend API");
-// });
+
 
 // Endpoint to execute code
 app.post('/run', (req, res) => {
