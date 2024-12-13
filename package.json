@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon Backend/index.js",
-    "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
-    "start": "node Backend/index.js"
-  },
+  "dev": "nodemon Backend/index.js",
+  "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+  "start": "node Backend/index.js",
+  "postinstall": "npm rebuild bcrypt --build-from-source"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
