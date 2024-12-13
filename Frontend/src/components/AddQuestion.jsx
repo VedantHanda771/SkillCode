@@ -24,7 +24,7 @@ const AddQuestion = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/admin/addquestion', {
+      const response = await fetch('https://cheatcode-us36.onrender.com/admin/addquestion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

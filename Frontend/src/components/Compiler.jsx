@@ -40,7 +40,7 @@ const Compiler = () => {
         setOutput('');
 
         try {
-            const response = await fetch('http://localhost:5000/run', {
+            const response = await fetch('https://cheatcode-us36.onrender.com/run', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ language, code, input: inputValue }),

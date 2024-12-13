@@ -24,7 +24,7 @@ function Content() {
 
         {/* Section 3 (Fourth Screen) */}
         <div className="sec3 text-white text-8xl">
-          <h1>Flow Charts</h1>
+          <h1>Road-maps</h1>
         </div>
       </div>
     </>
