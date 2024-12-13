@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon Backend/index.js",
-    "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
-    "start": "nodemon Backend/index.js"
-  },
+  "dev": "nodemon Backend/index.js",
+  "build": "apt-get update && apt-get install -y openjdk-11-jdk && npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+  "start": "nodemon Backend/index.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

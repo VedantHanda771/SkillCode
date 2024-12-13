@@ -29,8 +29,8 @@ if (!SECRET_KEY || !process.env.MONGODB_URL) {
 // MongoDB connection
 mongoose
   .connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => {
@@ -135,7 +135,7 @@ app.post('/run', (req, res) => {
   console.log(`Executing: ${command}`);
   const execProcess = exec(command, { timeout: timeoutDuration }, (error, stdout, stderr) => {
     try {
-      // Cleanup temporary files
+      // Cleanup temporary files except input.txt
       if (language === 'python' && fs.existsSync(`${codeFilePath}.py`)) {
         fs.unlinkSync(`${codeFilePath}.py`);
       } else if (language === 'cpp') {
@@ -145,7 +145,8 @@ app.post('/run', (req, res) => {
         if (fs.existsSync(`${codeFilePath}.java`)) fs.unlinkSync(`${codeFilePath}.java`);
         if (fs.existsSync(path.join(tempDir, 'code.class'))) fs.unlinkSync(path.join(tempDir, 'code.class'));
       }
-      if (input && fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
+      // Do not delete input.txt anymore
+      // if (input && fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
     } catch (cleanupError) {
       console.error('Cleanup Error:', cleanupError.message);
     }
@@ -164,6 +165,7 @@ app.post('/run', (req, res) => {
     execProcess.kill();
   });
 });
+
 
 
 // Endpoint to fetch all questions
