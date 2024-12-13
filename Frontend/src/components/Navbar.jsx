@@ -7,10 +7,11 @@ const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState(''); // State for logout message
-  const [loginMessage, setLoginMessage] = useState(''); // State for logout message
+  const [loginMessage, setLoginMessage] = useState(''); // State for login message
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // const[isAuthenticated, user] = useAuth0();
 
   // Get user data from Redux store
   const user = useSelector((state) => state.user.user);
@@ -34,30 +35,29 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [dispatch]);
 
-const handleLogin =  () => {
-  const userFromLocalStorage = localStorage.getItem('user');
-  if (userFromLocalStorage) {
-    // If no user is found in localStorage, show "Please log in first"
-    setLoginMessage('Welcome ' + userFromLocalStorage);
-    
-    // Clear the message after 2 seconds
-    setTimeout(() => {
-      setLoginMessage('');
-    }, 2000);
-  } else {
-    navigate('/login');
-  }
-}
+  const handleLogin = () => {
+    const userFromLocalStorage = localStorage.getItem('user');
+    if (userFromLocalStorage) {
+      // If no user is found in localStorage, show "Please log in first"
+      setLoginMessage('Welcome ' + userFromLocalStorage);
 
+      // Clear the message after 2 seconds
+      setTimeout(() => {
+        setLoginMessage('');
+      }, 2000);
+    } else {
+      navigate('/login');
+    }
+  };
 
   const handleLogout = () => {
     // Check if the user exists in localStorage directly
     const userFromLocalStorage = localStorage.getItem('user');
-    
+
     if (!userFromLocalStorage) {
       // If no user is found in localStorage, show "Please log in first"
       setLogoutMessage('Please log in first!');
-      
+
       // Clear the message after 2 seconds
       setTimeout(() => {
         setLogoutMessage('');
@@ -72,13 +72,13 @@ const handleLogin =  () => {
       } catch (error) {
         console.error('Error parsing user data from localStorage:', error);
       }
-  
+
       // Proceed with logout
       dispatch(clearUser()); // Clear user from Redux store
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
       setLogoutMessage('Logged out successfully!');
-  
+
       // Navigate to login page after a brief delay
       setTimeout(() => {
         setLogoutMessage('');
@@ -86,8 +86,6 @@ const handleLogin =  () => {
       }, 2000); // Message shows for 2 seconds
     }
   };
-  
-  
 
   const isActive = (path) => (location.pathname === path ? 'text-blue-500' : 'text-white');
 
@@ -115,21 +113,33 @@ const handleLogin =  () => {
             </Link>
             {(
               <>
-                <button 
-                  // to="/login"
-                  onClick={handleLogin} 
+
+              {/* {
+                isAuthenticated && <h2>{user.name}</h2>
+              } */}
+                <Link 
+                  to="/profile" 
                   className="text-sm text-white hover:text-gray-300 transition-colors"
                 >
-                  Login
-                </button>
+                  Profile
+                </Link>
                 <button 
                   onClick={handleLogout} 
                   className="text-sm text-white hover:text-gray-300 transition-colors"
                 >
                   Logout
                 </button>
+            
+              <button 
+                onClick={handleLogin} 
+                className="text-sm text-white hover:text-gray-300 transition-colors"
+              >
+                Login
+              </button>
               </>
-            )}
+            )};
+            
+
           </div>
           <button onClick={toggleMenu} className="block md:hidden text-white">
             <span className="material-icons">menu</span>
@@ -160,7 +170,6 @@ const handleLogin =  () => {
                 Roadmaps
               </Link>
             </li>
-            
           </ul>
         </div>
       </nav>
@@ -168,15 +177,17 @@ const handleLogin =  () => {
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
         <div className="absolute top-16 left-0 w-full bg-gray-800 p-4 md:hidden">
-          {(
-            <>
-              <Link to="/login" className="text-white block py-2">
-                Login
-              </Link>
-              <button onClick={handleLogout} className="text-white block py-2 w-full text-left">
-                Logout
-              </button>
-            </>
+          <Link to="/profile" className="text-white block py-2">
+            Profile
+          </Link>
+          {user ? (
+            <button onClick={handleLogout} className="text-white block py-2 w-full text-left">
+              Logout
+            </button>
+          ) : (
+            <Link to="/login" className="text-white block py-2">
+              Login
+            </Link>
           )}
           <Link to="/problems" className="text-white block py-2">
             Problem Set
@@ -187,10 +198,7 @@ const handleLogin =  () => {
           <Link to="/roadmaps" className="text-white block py-2">
             Roadmaps
           </Link>
-          <Link 
-            to="/compiler" 
-            className="text-white block py-2"
-          >
+          <Link to="/compiler" className="text-white block py-2">
             Compiler
           </Link>
         </div>

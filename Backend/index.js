@@ -72,21 +72,29 @@ const userSchema = new mongoose.Schema(
 const Question = mongoose.model('Question', questionSchema);
 const User = mongoose.model('User', userSchema);
 
-// JWT Authentication Middleware
 const authenticateJWT = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  // Extract the token from the "Authorization" header
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1]; // Supports both `null` and undefined cases
+
+  // Check if token is provided
   if (!token) {
     return res.status(403).json({ error: 'Access denied. No token provided.' });
   }
 
-  jwt.verify(token, SECRET_KEY, (err, user) => {
+  // Verify the token
+  jwt.verify(token, SECRET_KEY, (err, decodedUser) => {
     if (err) {
       return res.status(403).json({ error: 'Invalid token.' });
     }
-    req.user = user;
+
+    // Attach the decoded user information to the request object
+    req.user = decodedUser;
     next();
   });
 };
+
+
 
 app.post('/', (req, res) => {
   res.json({ message: 'Hello World!' });
@@ -198,6 +206,50 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+app.post('/admin/addquestion', async (req, res) => {
+  const {
+    Q_name,
+    Q_explanation,
+    Q_input,
+    Q_output,
+    TypeOfQues,
+    Solved,
+    Comp_name,
+    Difficulty
+  } = req.body;
+
+  // Validate required fields
+  if (!Q_name || !Q_explanation || !Q_input || !Q_output || !TypeOfQues || !Comp_name || !Difficulty) {
+    return res.status(400).send({ error: 'All fields are required' });
+  }
+
+  // Create a new question object
+  const newQuestion = {
+    Q_name,
+    Q_explanation,
+    Q_input,
+    Q_output,
+    TypeOfQues,
+    Solved: Solved || false, // Default to false if not provided
+    Comp_name,
+    Difficulty,
+  };
+
+  try {
+    // Insert the new question into the database
+    const result = await db.collection('Questions').insertOne(newQuestion);
+
+    // Send success response
+    res.status(201).send({
+      message: 'Question added successfully',
+      question: { ...newQuestion, _id: result.insertedId },
+    });
+  } catch (error) {
+    console.error('Error adding question:', error);
+    res.status(500).send({ error: 'Failed to add question' });
+  }
+});
+
 // Login Endpoint
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -217,6 +269,48 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.get('/profile', authenticateJWT, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id); // Fetch user based on logged-in user's ID
+    if (!user || user.softDelete === 'yes') {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Extracting only the required fields
+    const { U_name, U_email, U_dob, Status } = user;
+    res.json({ U_name, U_email, U_dob, Status });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.use(express.json()); // Middleware to parse JSON requests
+
+
+app.put('/profile', authenticateJWT, async (req, res) => {
+  const { U_name, U_email, U_dob, Status } = req.body;
+
+  try {
+    const user = await User.findById(req.user._id); // Find the user by ID
+    if (!user || user.softDelete === 'yes') {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Update only the fields provided in the request
+    if (U_name) user.U_name = U_name;
+    if (U_email) user.U_email = U_email;
+    if (U_dob) user.U_dob = new Date(U_dob); // Ensure the date is correctly formatted
+    if (Status) user.Status = Status;
+
+    await user.save(); // Save changes to the database
+
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 // Course Schema
 const courseSchema = new mongoose.Schema({
@@ -320,6 +414,7 @@ app.post('/submitCode', async (req, res) => {
 });
 
 
+// Endpoint to get the logged-in user's profile
 
 
 

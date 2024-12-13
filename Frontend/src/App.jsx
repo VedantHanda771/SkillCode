@@ -20,6 +20,30 @@ const SolveProblem = lazy(() => import('./components/SolveProblem'));
 const CourseLayout = lazy(() => import('./components/CourseLayout'));
 const Roadmaps = lazy(() => import('./components/Roadmap'));
 const AddQuestion = lazy(() => import('./components/AddQuestion'));
+const Profile = lazy(() => import('./components/Profile')); // Import Profile component
+
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Error caught in ErrorBoundary:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div className="error-message">Something went wrong. Please try again later.</div>;
+    }
+    return this.props.children;
+  }
+}
 
 export default function App() {
   const textRef = useRef(null);
@@ -61,48 +85,53 @@ export default function App() {
           </div>
         }
       >
-        <div className="relative min-h-screen bg-gray-900">
-          {/* Shader Background */}
-          <ShaderBackground />
+        <ErrorBoundary>
+          <div className="relative min-h-screen bg-gray-900">
+            {/* Shader Background */}
+            <ShaderBackground />
 
-          {/* Main Content */}
-          <div className="relative z-10">
-            <Navbar />
-            <Routes>
-              {/* Home Route */}
-              <Route
-                path="/"
-                element={
-                  <>
-                    <Laptop onLidStateChange={setIsLidOpen} />
-                    <div
-                      ref={textRef}
-                      className="text-white text-center p-4"
-                      style={{ opacity: 1, transition: 'opacity 0.5s ease' }}
-                    >
-                      <Text />
-                    </div>
-                    <Content />
-                  </>
-                }
-              />
+            {/* Main Content */}
+            <div className="relative z-10">
+              <Navbar />
+              <Routes>
+                {/* Home Route */}
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <Laptop onLidStateChange={setIsLidOpen} />
+                      <div
+                        ref={textRef}
+                        className="text-white text-center p-4"
+                        style={{ opacity: 1, transition: 'opacity 0.5s ease' }}
+                      >
+                        <Text />
+                      </div>
+                      <Content />
+                    </>
+                  }
+                />
 
-              {/* Auth Routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+                {/* Auth Routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
-              {/* Compiler & Problems Routes */}
-              <Route path="/compiler" element={<Compiler />} />
-              <Route path="/problems" element={<ProblemSet />} />
-              <Route path="/problems/:name" element={<SolveProblem />} />
+                {/* Compiler & Problems Routes */}
+                <Route path="/compiler" element={<Compiler />} />
+                <Route path="/problems" element={<ProblemSet />} />
+                <Route path="/problems/:name" element={<SolveProblem />} />
 
-              {/* Additional Features */}
-              <Route path="/courses" element={<CourseLayout />} />
-              <Route path="/roadmaps" element={<Roadmaps />} />
-              <Route path="/addquestion" element={<AddQuestion />} />
-            </Routes>
+                {/* Additional Features */}
+                <Route path="/courses" element={<CourseLayout />} />
+                <Route path="/roadmaps" element={<Roadmaps />} />
+                <Route path="/addquestion" element={<AddQuestion />} />
+
+                {/* Profile Route */}
+                <Route path="/profile" element={<Profile />} /> {/* Add profile route */}
+              </Routes>
+            </div>
           </div>
-        </div>
+        </ErrorBoundary>
       </Suspense>
     </Router>
   );
