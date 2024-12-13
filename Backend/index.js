@@ -127,7 +127,7 @@ app.post('/run', (req, res) => {
     command = `g++ "${codeFilePath}.cpp" -o "${codeFilePath}" && "${codeFilePath}" < "${inputFilePath}"`;
   } else if (language === 'java') {
     fs.writeFileSync(`${codeFilePath}.java`, code);
-    command = `javac "${codeFilePath}.java" && java -cp "${tempDir}" code < "${inputFilePath}"`;
+    command = `javac "${codeFilePath}.java" && java -cp "${tempDir}" ${path.basename(codeFilePath)} < "${inputFilePath}"`;
   } else {
     return res.status(400).json({ error: 'Unsupported language.' });
   }
@@ -136,15 +136,16 @@ app.post('/run', (req, res) => {
   const execProcess = exec(command, { timeout: timeoutDuration }, (error, stdout, stderr) => {
     try {
       // Cleanup temporary files
-      if (language === 'python') fs.unlinkSync(`${codeFilePath}.py`);
-      else if (language === 'cpp') {
-        fs.unlinkSync(`${codeFilePath}.cpp`);
-        fs.unlinkSync(codeFilePath);
+      if (language === 'python' && fs.existsSync(`${codeFilePath}.py`)) {
+        fs.unlinkSync(`${codeFilePath}.py`);
+      } else if (language === 'cpp') {
+        if (fs.existsSync(`${codeFilePath}.cpp`)) fs.unlinkSync(`${codeFilePath}.cpp`);
+        if (fs.existsSync(codeFilePath)) fs.unlinkSync(codeFilePath);
       } else if (language === 'java') {
-        fs.unlinkSync(`${codeFilePath}.java`);
-        fs.unlinkSync(path.join(tempDir, 'code.class'));
+        if (fs.existsSync(`${codeFilePath}.java`)) fs.unlinkSync(`${codeFilePath}.java`);
+        if (fs.existsSync(path.join(tempDir, 'code.class'))) fs.unlinkSync(path.join(tempDir, 'code.class'));
       }
-      if (input) fs.unlinkSync(inputFilePath);
+      if (input && fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
     } catch (cleanupError) {
       console.error('Cleanup Error:', cleanupError.message);
     }
@@ -163,6 +164,7 @@ app.post('/run', (req, res) => {
     execProcess.kill();
   });
 });
+
 
 // Endpoint to fetch all questions
 app.get('/problems', async (req, res) => {

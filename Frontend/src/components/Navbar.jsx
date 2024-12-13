@@ -156,7 +156,7 @@ const Navbar = () => {
         <div className="max-w-screen-xl px-4 py-3 mx-auto">
           <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
             <li>
-              <Link to="/problems" className={`hover:underline ${isActive('/problemset')}`}>
+              <Link to="/problems" className={`hover:underline ${isActive('/problems')}`}>
                 Problem Set
               </Link>
             </li>
