@@ -96,9 +96,8 @@ const authenticateJWT = (req, res, next) => {
 
 
 
-app.post('/', (req, res) => {
-  res.json({ message: 'Hello World!' });
-
+app.get("/", (req, res) => {
+  res.send("CheatCode Backend API");
 });
 
 // Endpoint to execute code
