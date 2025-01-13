@@ -88,10 +88,8 @@ CheatCode is a web-based application designed to replicate and enhance the funct
    npm start
    ```
 
-6. Access the deployed version at:
-   ```
-   https://cheatcode-us36.onrender.com/
-   ```
+6. Access the deployed version at:  
+   [Cheat Code](https://cheatcode-us36.onrender.com/)
 
 ---
 
