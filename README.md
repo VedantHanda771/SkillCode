@@ -65,7 +65,7 @@ CheatCode is a web-based application designed to replicate and enhance the funct
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/VedantHanda771/CheatCode.git
    ```
 
 2. Navigate to the project directory:
@@ -81,6 +81,8 @@ CheatCode is a web-based application designed to replicate and enhance the funct
 4. Set up MongoDB and configure the connection string in `.env` file:
    ```env
    MONGO_URI=<your-mongodb-connection-string>
+   PORT=<your-port-number>
+   JWT_SECRET=<your-secret>
    ```
 
 5. Start the development server:
@@ -88,8 +90,7 @@ CheatCode is a web-based application designed to replicate and enhance the funct
    npm start
    ```
 
-6. Access the deployed version at:  
-   [Cheat Code](https://cheatcode-us36.onrender.com/)
+6. Access the deployed version at:   [DEMO](https://cheatcode-us36.onrender.com/)
 
 ---
 
