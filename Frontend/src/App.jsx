@@ -21,6 +21,7 @@ const CourseLayout = lazy(() => import('./components/CourseLayout'));
 const Roadmaps = lazy(() => import('./components/Roadmap'));
 const AddQuestion = lazy(() => import('./components/AddQuestion'));
 const Profile = lazy(() => import('./components/Profile')); // Import Profile component
+const Home = lazy(() => import('./components/Home'));
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -86,9 +87,14 @@ export default function App() {
         }
       >
         <ErrorBoundary>
-          <div className="relative min-h-screen bg-gray-900">
+          <div className="relative min-h-screen"
+     style={{ 
+        background: '#03001e',  /* fallback for old browsers */
+background: '-webkit-linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)',  /* Chrome 10-25, Safari 5.1-6 */
+background: 'linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+     }}>
             {/* Shader Background */}
-            <ShaderBackground />
+            {/* <ShaderBackground /> */}
 
             {/* Main Content */}
             <div className="relative z-10">
@@ -98,17 +104,24 @@ export default function App() {
                 <Route
                   path="/"
                   element={
-                    <>
-                      <Laptop onLidStateChange={setIsLidOpen} />
-                      <div
-                        ref={textRef}
-                        className="text-white text-center p-4"
-                        style={{ opacity: 1, transition: 'opacity 0.5s ease' }}
-                      >
-                        <Text />
-                      </div>
-                      <Content />
-                    </>
+                    // <>
+                    //   <Laptop onLidStateChange={setIsLidOpen} />
+                    //   <div
+                    //     ref={textRef}
+                    //     className="text-white text-center p-4"
+                    //     style={{ opacity: 1, transition: 'opacity 0.5s ease' }}
+                    //   >
+                    //     <Text />
+                    //   </div>
+                    //   <Content />
+                    
+                    // </>
+  
+                    
+                    <Home />
+                    
+                    
+                    
                   }
                 />
 
@@ -118,11 +131,11 @@ export default function App() {
 
                 {/* Compiler & Problems Routes */}
                 <Route path="/compiler" element={<Compiler />} />
-                <Route path="/problems" element={<ProblemSet />} />
-                <Route path="/problems/:name" element={<SolveProblem />} />
+                <Route path="/Problems" element={<ProblemSet />} />
+                <Route path="/Problems/:name" element={<SolveProblem />} />
 
                 {/* Additional Features */}
-                <Route path="/courses" element={<CourseLayout />} />
+                <Route path="/Courses" element={<CourseLayout />} />
                 <Route path="/roadmaps" element={<Roadmaps />} />
                 <Route path="/addquestion" element={<AddQuestion />} />
 

@@ -63,7 +63,7 @@ function ProblemSet() {
                                             className="hover:bg-black transition-all border-b border-gray-700"
                                         >
                                             <td className="p-2">
-                                                <Link to={`/problems/${question.Q_name}`} className="text-white hover:underline">
+                                                <Link to={`/Problems/${question.Q_name}`} className="text-white hover:underline">
                                                     {question.Q_name}
                                                 </Link>
                                             </td>

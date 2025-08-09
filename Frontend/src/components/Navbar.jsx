@@ -92,16 +92,16 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <>
+    <div style={{ zIndex: 9999}}>
       {/* Main Navbar */}
-      <nav className="bg-white backdrop-blur-md bg-opacity-30 border-gray-200">
+      <nav className="bg-white backdrop-blur-md bg-opacity-30 border-gray-200 backdrop-blur">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <span
               className="self-center text-4xl font-semibold whitespace-nowrap"
               style={{ color: '#ffffff', fontFamily: "'New Amsterdam', sans-serif", fontWeight: 500 }}
             >
-              CheatCode
+              SkillCode
             </span>
           </Link>
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
@@ -137,7 +137,7 @@ const Navbar = () => {
                 Login
               </button>
               </>
-            )};
+            )}
             
 
           </div>
@@ -156,12 +156,12 @@ const Navbar = () => {
         <div className="max-w-screen-xl px-4 py-3 mx-auto">
           <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
             <li>
-              <Link to="/problems" className={`hover:underline ${isActive('/problems')}`}>
+              <Link to="/Problems" className={`hover:underline ${isActive('/Problems')}`}>
                 Problem Set
               </Link>
             </li>
             <li>
-              <Link to="/courses" className={`hover:underline ${isActive('/courses')}`}>
+              <Link to="/Courses" className={`hover:underline ${isActive('/Courses')}`}>
                 Courses
               </Link>
             </li>
@@ -189,10 +189,10 @@ const Navbar = () => {
               Login
             </Link>
           )}
-          <Link to="/problems" className="text-white block py-2">
+          <Link to="/Problems" className="text-white block py-2">
             Problem Set
           </Link>
-          <Link to="/courses" className="text-white block py-2">
+          <Link to="/Courses" className="text-white block py-2">
             Courses
           </Link>
           <Link to="/roadmaps" className="text-white block py-2">
@@ -215,7 +215,7 @@ const Navbar = () => {
           {loginMessage}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

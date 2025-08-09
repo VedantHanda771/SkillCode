@@ -5,11 +5,19 @@
   font-family: "'New Amsterdam', sans-serif";
 }
 
-html{
-  background-color: black;
-  width: 100%;
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
+
+html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+
+
+
+
+
 
 .fixed {
   position: fixed;
@@ -40,4 +48,5 @@ html{
   font-weight: 400;
   font-style: normal;
 }
+
 

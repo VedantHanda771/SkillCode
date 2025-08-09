@@ -169,7 +169,7 @@ app.post('/run', (req, res) => {
 
 
 // Endpoint to fetch all questions
-app.get('/problems', async (req, res) => {
+app.get('/api/problems', async (req, res) => {
   try {
     const problems = await Question.find();
     res.json(problems);
@@ -179,7 +179,7 @@ app.get('/problems', async (req, res) => {
 });
 
 // Endpoint to fetch a single problem by name
-app.get('/problems/:name', async (req, res) => {
+app.get('/api/problems/:name', async (req, res) => {
   try {
     const problem = await Question.findOne({ Q_name: decodeURIComponent(req.params.name) });
     if (!problem) return res.status(404).json({ error: 'Problem not found' });
@@ -330,7 +330,7 @@ const courseSchema = new mongoose.Schema({
 const Course = mongoose.model('Course', courseSchema);
 
 // Endpoint to fetch all courses
-app.get('/courses', async (req, res) => {
+app.get('/api/courses', async (req, res) => {
   try {
     const courses = await Course.find({ SoftDelete: 'no', Status: 'active' }); // Fetch only active courses not soft-deleted
     res.status(200).json(courses);
@@ -340,7 +340,7 @@ app.get('/courses', async (req, res) => {
 });
 
 // Endpoint to fetch detailed information about a single course by ID
-app.get('/courses/:id', async (req, res) => {
+app.get('/api/courses/:id', async (req, res) => {
   try {
     const course = await Course.findOne({ Course_id: req.params.id, SoftDelete: 'no' });
 
