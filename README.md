@@ -1,6 +1,6 @@
-# CheatCode
+# SkillCode
 
-CheatCode is a web-based application designed to replicate and enhance the functionalities of LeetCode. It enables users to solve coding problems, visualize solutions through flow charts, and manage courses. The platform integrates React for the frontend and MongoDB for data management. CheatCode provides features like CRUD operations for questions, courses, users, and more.
+SkillCode is a web-based application designed to replicate and enhance the functionalities of LeetCode. It enables users to solve coding problems, visualize solutions through flow charts, and manage courses. The platform integrates React for the frontend and MongoDB for data management. SkillCode provides features like CRUD operations for questions, courses, users, and more.
 
 ---
 
@@ -65,12 +65,12 @@ CheatCode is a web-based application designed to replicate and enhance the funct
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/VedantHanda771/CheatCode.git
+   git clone https://github.com/VedantHanda771/SkillCode.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd cheatcode
+   cd SkillCode
    ```
 
 3. Install dependencies:
@@ -90,7 +90,7 @@ CheatCode is a web-based application designed to replicate and enhance the funct
    npm start
    ```
 
-6. Access the deployed version at:   [DEMO](https://cheatcode-us36.onrender.com/)
+6. Access the deployed version at:   [DEMO](https://SkillCode-us36.onrender.com/)
 
 ---
 
