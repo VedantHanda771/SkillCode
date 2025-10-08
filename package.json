@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon Backend/index.js",
+    "preinstall": "apt-get update && apt-get install -y openjdk-17-jdk",
     "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend ",
     "start": "nodemon Backend/index.js"
   },
