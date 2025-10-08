@@ -20,7 +20,7 @@ const SolveProblem = () => {
     const fetchQuestion = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`https://cheatcode-us36.onrender.com/Problems/${encodeURIComponent(name)}`);
+        const response = await fetch(`https://cheatcode-us36.onrender.com/api/problems/${encodeURIComponent(name)}`);
         const data = await response.json();
         if (response.ok) {
           setQuestion(data);

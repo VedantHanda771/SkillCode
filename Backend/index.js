@@ -396,26 +396,26 @@ app.get('/getUser/:username', (req, res) => {
 
 
 
-app.post('/submitCode', async (req, res) => {
-  const { user, Q_id, code } = req.body;
-
-  if (!user || !questionId || !code) {
-    return res.status(400).json({ message: 'Missing required fields' });
-  }
-
-  try {
-    // Save code to the database
-    await CodeModel.create({
-      user,
-      Q_id,
-      code,
-      createdAt: new Date(),
-    });
-    res.status(200).json({ message: 'Code saved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error saving code', error });
-  }
-});
+// app.post('/submitCode', async (req, res) => {
+//   const { user, Q_id, code } = req.body;
+//
+//   if (!user || !questionId || !code) {
+//     return res.status(400).json({ message: 'Missing required fields' });
+//   }
+//
+//   try {
+//     // Save code to the database
+//     await CodeModel.create({
+//       user,
+//       Q_id,
+//       code,
+//       createdAt: new Date(),
+//     });
+//     res.status(200).json({ message: 'Code saved successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error saving code', error });
+//   }
+// });
 
 
 // Endpoint to get the logged-in user's profile
