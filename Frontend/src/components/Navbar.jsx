@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser, setUser } from '../userSlice'; // Import actions
-
+import "../App.css"
 const Navbar = () => {
-  const [isSticky, setIsSticky] = useState(false);
+  // const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState(''); // State for logout message
   const [loginMessage, setLoginMessage] = useState(''); // State for login message
@@ -92,11 +92,12 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <div style={{ zIndex: 9999}}>
+    <div className="navbar"
+    style={{marginTop: '20px'}}>
       {/* Main Navbar */}
-      <nav className="bg-white backdrop-blur-md bg-opacity-30 border-gray-200 backdrop-blur">
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+      <nav className="w-full">
+        <div className="flex  justify-between items-center mx-auto max-w-screen-xl p-4 ">
+          <Link to="/" className="">
             <span
               className="self-center text-4xl font-semibold whitespace-nowrap"
               style={{ color: '#ffffff', fontFamily: "'New Amsterdam', sans-serif", fontWeight: 500 }}
@@ -104,38 +105,52 @@ const Navbar = () => {
               SkillCode
             </span>
           </Link>
-          <div className="flex items-center space-x-6 rtl:space-x-reverse">
+          <div className="flex items-right space-x-6 rtl:space-x-reverse">
             <Link 
               to="/compiler" 
               className={`text-sm text-white hover:text-gray-300 transition-colors ${isActive('/compiler')}`}
             >
               Compiler
             </Link>
+
+              <Link to="/Problems" className={`text-sm text-white hover:text-gray-300 transition-colors ${isActive('/Problems')}`}>
+                  Problem Set
+              </Link>
+                  <Link to="/Courses" className={`text-sm text-white hover:text-gray-300 transition-colors ${isActive('/Courses')}`}>
+                      Courses
+                  </Link>
+
+
+                  <Link to="/roadmaps" className={`text-sm text-white hover:text-gray-300 transition-colors ${isActive('/roadmaps')}`}>
+                      Roadmaps
+                  </Link>
+
             {(
               <>
 
               {/* {
                 isAuthenticated && <h2>{user.name}</h2>
               } */}
-                <Link 
-                  to="/profile" 
-                  className="text-sm text-white hover:text-gray-300 transition-colors"
-                >
-                  Profile
-                </Link>
-                <button 
-                  onClick={handleLogout} 
-                  className="text-sm text-white hover:text-gray-300 transition-colors"
-                >
-                  Logout
-                </button>
-            
-              <button 
-                onClick={handleLogin} 
-                className="text-sm text-white hover:text-gray-300 transition-colors"
-              >
-                Login
-              </button>
+
+                  {localStorage.getItem("user") ? (
+                      <button
+                          onClick={handleLogout}
+                          className="text-sm text-white hover:text-gray-300 transition-colors"
+                      >
+                          Logout {localStorage.getItem("user")}
+                      </button>
+                  ) : null}
+
+                  {!localStorage.getItem("user") && (
+                      <button
+                          onClick={handleLogin}
+                          className="text-sm text-white hover:text-gray-300 transition-colors"
+                      >
+                          Login
+                      </button>
+                  )}
+
+
               </>
             )}
             
@@ -147,32 +162,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Sticky Navbar */}
-      <nav
-        className={`bg-gray-50 backdrop-blur-md bg-opacity-30 sticky top-0 z-50 transition-all duration-300 ${
-          isSticky ? 'block' : 'hidden'
-        } shadow-md`}
-      >
-        <div className="max-w-screen-xl px-4 py-3 mx-auto">
-          <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
-            <li>
-              <Link to="/Problems" className={`hover:underline ${isActive('/Problems')}`}>
-                Problem Set
-              </Link>
-            </li>
-            <li>
-              <Link to="/Courses" className={`hover:underline ${isActive('/Courses')}`}>
-                Courses
-              </Link>
-            </li>
-            <li>
-              <Link to="/roadmaps" className={`hover:underline ${isActive('/roadmaps')}`}>
-                Roadmaps
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+
 
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (

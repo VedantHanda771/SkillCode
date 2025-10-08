@@ -11,6 +11,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+    background : linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e);
 }
 
 
@@ -47,6 +48,19 @@ html, body {
   font-family: "New Amsterdam", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+.navbar {
+    width: 70%;
+    height: 70px;
+    margin:  auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 

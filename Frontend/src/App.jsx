@@ -90,7 +90,7 @@ export default function App() {
           <div className="relative min-h-screen"
      style={{ 
 // background: '-webkit-linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)',  /* Chrome 10-25, Safari 5.1-6 */
-background : 'linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+// background : 'linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
      }}>
             {/* Shader Background */}
             {/* <ShaderBackground /> */}
