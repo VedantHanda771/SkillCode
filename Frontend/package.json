@@ -13,6 +13,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.1",
     "@monaco-editor/react": "^4.6.0",
+    "@react-spring/parallax": "^10.0.3",
     "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.7",
     "code-compiler-backend": "file:..",
