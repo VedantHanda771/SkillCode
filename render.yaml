@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: cheatcode
-    env: docker
-    plan: free
-    autoDeploy: true
