@@ -1,0 +1,21 @@
+.btn {
+    /*background: ghostwhite; !* very light transparent white *!*/
+    /*color: darkgray;*/
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* soft shadow */
+    font-weight: bold;
+}
+
+.btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    /*background: rgba(255, 255, 255, 0.2);*/
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}

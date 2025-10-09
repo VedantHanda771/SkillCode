@@ -1,0 +1,35 @@
+.floating-symbols-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* allows clicks to pass through */
+    z-index: 0; /* behind all content */
+}
+
+.floating-symbol {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.15);
+    font-family: 'Fira Code', monospace;
+    animation: floatUp 15s linear infinite;
+    user-select: none;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+    }
+}

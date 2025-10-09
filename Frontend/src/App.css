@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
 
 
 .box{
@@ -7,12 +8,54 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-    background : linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e);
+/*html, body {*/
+/*  height: 100%;*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*    !*background : linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e);*!*/
+/*    !*background: linear-gradient(135deg, #1a0029, #3a0ca3, #7209b7, #f72585); !*goof*!*!*/
+/*    !*background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);*!*/
+/*    !*background: linear-gradient(135deg, #74ABE2, #5563DE, #9B59B6, #E056FD);*!*/
+
+/*    background: linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e);*/
+/*    background-size: 400% 400%;*/
+/*    animation: gradientMove 10s ease infinite;*/
+
+/*}*/
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(-45deg, #1a0029, #3a0ca3, #7209b7, #b5179e);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Subtle smooth gradient motion */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/*body::before {*/
+/*    content: "";*/
+/*    position: fixed;*/
+/*    inset: 0;*/
+/*    background: rgba(0, 0, 0, 0.35); !* Adjust 0.3–0.45 as needed *!*/
+/*    z-index: -1;*/
+/*}*/
+
 
 
 
@@ -62,5 +105,7 @@ html, body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+
 
 

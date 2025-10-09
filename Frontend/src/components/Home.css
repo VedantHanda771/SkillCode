@@ -1,3 +1,76 @@
-body{
-  margin-top: 100px;
+/*@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Quicksand:wght@300..700&display=swap');
+
+.heroSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.topBoxHead {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 5% auto 0 auto;  /* center horizontally */
+    font-weight: bold;
+    color: lightgray;
+    font-size: 1.3rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: 17%;
+    height: 70px;
+    border-radius: 12px; /* optional for style */
+    font-family: 'Quicksand', sans-serif ;
+}
+
+.welcome{
+    margin: 2% auto 0 auto;
+    font-family: "New Amsterdam", sans-serif;
+    font-size: 7rem;
+    color: darkgrey;
+}
+.high{
+    color : white;
+}
+
+.lower{
+    color: darkgray;
+    font-size: 1.7rem;
+    font-family: "Quicksand", sans-serif;
+    margin-top: 0px;
+}
+
+
+.img{
+    width: 30%;
+    /*height: 60%;*/
+    /*margin: auto auto 0 auto;*/
+    margin-top: 0;
+}
+
+.infoHeading{
+    color: darkgray;
+    font-family: 'Quicksand', sans-serif ;
+    font-size: 1.5rem;
+}
+
+
+.infoProb{
+    margin: 5% 1rem 2rem 0;
+    /*background-color: white;*/
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: bold;
+}
+.infoSignup{
+    background: rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+    margin: 5% auto 2rem 1rem;
+    font-weight: bold;
 }

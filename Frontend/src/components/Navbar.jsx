@@ -105,7 +105,7 @@ const Navbar = () => {
               SkillCode
             </span>
           </Link>
-          <div className="flex items-right space-x-6 rtl:space-x-reverse">
+          <div className="flex items-right space-x-6 rtl:space-x-reverse" style={{fontFamily: "'Quicksand', sans-serif", fontWeight:"bold"}}>
             <Link 
               to="/compiler" 
               className={`text-sm text-white hover:text-gray-300 transition-colors ${isActive('/compiler')}`}

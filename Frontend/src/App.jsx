@@ -2,16 +2,12 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import FloatingSymbol from './components/FloatingSymbols.jsx';
 // Register GSAP plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // Lazy load components
-const Laptop = lazy(() => import('./components/Laptop'));
 const Navbar = lazy(() => import('./components/Navbar'));
-const Text = lazy(() => import('./components/Text'));
-const ShaderBackground = lazy(() => import('./components/ShaderBackground'));
-const Content = lazy(() => import('./components/Content'));
 const Login = lazy(() => import('./components/Login'));
 const Signup = lazy(() => import('./components/Signup'));
 const Compiler = lazy(() => import('./components/Compiler'));
@@ -22,6 +18,8 @@ const Roadmaps = lazy(() => import('./components/Roadmap'));
 const AddQuestion = lazy(() => import('./components/AddQuestion'));
 const Profile = lazy(() => import('./components/Profile')); // Import Profile component
 const Home = lazy(() => import('./components/Home'));
+const Footer = lazy(() => import('./components/Footer'));
+// const FloatingSymbols = () => lazy(() => import('./components/FloatingSymbols'));
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -48,7 +46,6 @@ class ErrorBoundary extends React.Component {
 
 export default function App() {
   const textRef = useRef(null);
-  const [isLidOpen, setIsLidOpen] = useState(false);
 
   // ScrollTrigger Effect for Text
   useEffect(() => {
@@ -69,13 +66,7 @@ export default function App() {
   }, []);
 
   // Lid State Effect
-  useEffect(() => {
-    gsap.to(textRef.current, {
-      opacity: isLidOpen ? 0 : 1,
-      duration: 1,
-      ease: 'power1.inOut',
-    });
-  }, [isLidOpen]);
+
 
   return (
     <Router>
@@ -87,61 +78,36 @@ export default function App() {
         }
       >
         <ErrorBoundary>
-          <div className="relative min-h-screen"
-     style={{ 
-// background: '-webkit-linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)',  /* Chrome 10-25, Safari 5.1-6 */
-// background : 'linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e)' /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-     }}>
+          <div className="relative min-h-screen">
+
             {/* Shader Background */}
             {/* <ShaderBackground /> */}
-
+              <FloatingSymbol />
             {/* Main Content */}
-            <div className="relative z-10">
-              <Navbar />
-              <Routes>
-                {/* Home Route */}
-                <Route
-                  path="/"
-                  element={
-                    // <>
-                    //   <Laptop onLidStateChange={setIsLidOpen} />
-                    //   <div
-                    //     ref={textRef}
-                    //     className="text-white text-center p-4"
-                    //     style={{ opacity: 1, transition: 'opacity 0.5s ease' }}
-                    //   >
-                    //     <Text />
-                    //   </div>
-                    //   <Content />
-                    
-                    // </>
-  
-                    
-                    <Home />
-                    
-                    
-                    
-                  }
-                />
+              <div className="flex flex-col min-h-screen">
 
-                {/* Auth Routes */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+                  <Navbar />
 
-                {/* Compiler & Problems Routes */}
-                <Route path="/compiler" element={<Compiler />} />
-                <Route path="/Problems" element={<ProblemSet />} />
-                <Route path="/Problems/:name" element={<SolveProblem />} />
+                  {/* Main content area grows and scrolls */}
+                  <div className="flex-grow">
+                      <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/login" element={<Login />} />
+                          <Route path="/signup" element={<Signup />} />
+                          <Route path="/compiler" element={<Compiler />} />
+                          <Route path="/Problems" element={<ProblemSet />} />
+                          <Route path="/Problems/:name" element={<SolveProblem />} />
+                          <Route path="/Courses" element={<CourseLayout />} />
+                          <Route path="/roadmaps" element={<Roadmaps />} />
+                          <Route path="/addquestion" element={<AddQuestion />} />
+                          <Route path="/profile" element={<Profile />} />
+                      </Routes>
+                  </div>
 
-                {/* Additional Features */}
-                <Route path="/Courses" element={<CourseLayout />} />
-                <Route path="/roadmaps" element={<Roadmaps />} />
-                <Route path="/addquestion" element={<AddQuestion />} />
+                  {/* Footer stays at bottom always */}
+                  {/*<Footer />*/}
+              </div>
 
-                {/* Profile Route */}
-                <Route path="/profile" element={<Profile />} /> {/* Add profile route */}
-              </Routes>
-            </div>
           </div>
         </ErrorBoundary>
       </Suspense>
