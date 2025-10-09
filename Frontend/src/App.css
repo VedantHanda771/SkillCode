@@ -32,6 +32,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    padding-top: 50px;
     background: linear-gradient(-45deg, #1a0029, #3a0ca3, #7209b7, #b5179e);
     background-size: 400% 400%;
     animation: gradientMove 15s ease infinite;
@@ -93,13 +94,19 @@ html, body {
   font-style: normal;
 }
 .navbar {
+    position: fixed;
+    top: 20px; /* adjust vertical placement */
+    left: 50%;
+    transform: translateX(-50%); /* centers it horizontally */
+
     width: 70%;
     height: 70px;
-    margin:  auto;
     padding: 1rem 2rem;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     border-radius: 2rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
