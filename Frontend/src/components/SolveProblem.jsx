@@ -20,7 +20,7 @@ const SolveProblem = () => {
     const fetchQuestion = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`https://cheatcode-us36.onrender.com/api/problems/${encodeURIComponent(name)}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/problems/${encodeURIComponent(name)}`);
         const data = await response.json();
         if (response.ok) {
           setQuestion(data);
@@ -45,7 +45,7 @@ const SolveProblem = () => {
     setTestPassed(null);
 
     try {
-      const response = await fetch('https://cheatcode-us36.onrender.com/run', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/run`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

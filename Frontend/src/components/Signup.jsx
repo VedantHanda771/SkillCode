@@ -23,7 +23,7 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://cheatcode-us36.onrender.com/signup', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

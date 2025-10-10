@@ -9,7 +9,7 @@ function ProblemSet() {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await fetch('https://cheatcode-us36.onrender.com/api/Problems');
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/Problems`);
                 const data = await response.json();
                 if (response.ok) {
                     setQuestions(data);

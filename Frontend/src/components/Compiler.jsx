@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
+import.meta.env.VITE_BACKEND_URL
 
 const Compiler = () => {
     const [language, setLanguage] = useState('javascript');
@@ -40,7 +41,7 @@ const Compiler = () => {
         setOutput('');
 
         try {
-            const response = await fetch('https://cheatcode-us36.onrender.com/run', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/run`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ language, code, input: inputValue }),
