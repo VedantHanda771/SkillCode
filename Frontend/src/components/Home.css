@@ -74,3 +74,105 @@
     margin: 5% auto 2rem 1rem;
     font-weight: bold;
 }
+
+.featuresSection{
+    margin: 5% auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Quicksand', sans-serif ;
+
+}
+
+.featureHead{
+    font-family: 'New Amsterdam', sans-serif;
+    font-size: 3.8rem;
+    color: darkgray;
+    margin-bottom: 5%;
+}
+.links{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+.scroll-link {
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-family: 'Quicksand', sans-serif ;
+    font-size: 1.2rem;
+    text-decoration: underline;
+
+
+}
+.comp{
+    color: darkgray;
+}
+
+.scroll-link:hover {
+    color: #00bfff; /* or any accent color */
+}
+.featureBody{
+    display: flex;
+    width: 70%;
+    align-items: stretch;
+    justify-content: space-between;
+}
+.imgSpace, .details {
+    flex: 1;               /* each side takes equal width */
+    display: flex;
+    align-items: center;   /* vertically center content */
+    justify-content: center;
+    /*margin: 0 5% 0 auto;*/
+    margin-right: 0;
+}
+
+.imgSpace {
+    width: 50%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgpos {
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    object-fit: fill;
+    display: block;
+    border-radius: 12px;
+}
+.details {
+    display: flex;
+    flex-direction: column; /* stack on smaller screens */
+    gap: 1.5rem;
+    padding: 1rem;
+    width: 90%;
+}
+
+.delBlock {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: #f1f1f1;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    backdrop-filter: blur(6px);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.delBlock:hover {
+    transform: scale(1.03);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.delBlock h3{
+    font-family: 'New Amsterdam', sans-serif ;
+    font-size: 1.5rem;
+}
+

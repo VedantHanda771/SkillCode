@@ -6,22 +6,8 @@
   font-family: "'New Amsterdam', sans-serif";
 }
 
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
 
-/*html, body {*/
-/*  height: 100%;*/
-/*  margin: 0;*/
-/*  padding: 0;*/
-/*    !*background : linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e);*!*/
-/*    !*background: linear-gradient(135deg, #1a0029, #3a0ca3, #7209b7, #f72585); !*goof*!*!*/
-/*    !*background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);*!*/
-/*    !*background: linear-gradient(135deg, #74ABE2, #5563DE, #9B59B6, #E056FD);*!*/
 
-/*    background: linear-gradient(to left, #fdeff9, #ec38bc, #7303c0, #03001e);*/
-/*    background-size: 400% 400%;*/
-/*    animation: gradientMove 10s ease infinite;*/
-
-/*}*/
 @keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
