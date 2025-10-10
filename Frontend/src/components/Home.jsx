@@ -28,7 +28,7 @@ const featuresArr = [
 ];
 
 const Home = () => {
-    const [activeImg, setActiveImg] = useState(featuresArr[0].image);
+    const [activeImg, setActiveImg] = useState(roadmap);
   return (
       < >
           <div className="heroSection">
