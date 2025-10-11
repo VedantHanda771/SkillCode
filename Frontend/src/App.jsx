@@ -105,7 +105,7 @@ export default function App() {
                   </div>
 
                   {/* Footer stays at bottom always */}
-                  {/*<Footer />*/}
+                  <Footer />
               </div>
 
           </div>

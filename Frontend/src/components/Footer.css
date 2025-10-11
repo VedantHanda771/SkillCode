@@ -1,16 +1,73 @@
+/* CSS */
 .footer {
-    background-color: black;
+    background: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    text-align: center;
+    width: 100%;
     color: white;
+    margin-top: 7rem; /* pushes it down when using flex layout */
+
+}
+
+.footerMaker a{
+    color: white;
+    text-decoration: underline;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.footerMaker a:hover{
+    color: darkgray;
+}
+.mainContent p{
+    letter-spacing: 2rem;
+    color: darkgray;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+.logo{
+    font-size: 17rem;
+    letter-spacing: 2.7rem;  /* subtle spacing */
     font-family: 'New Amsterdam', sans-serif;
-    font-size: 14rem;
+    position: relative;
+    display: flex;
+    line-height: 1;
     width: 100%;
     text-align: center;
-    height: 100px;
-    /*z-index: 50;*/
-    display: flex;
-    align-items: center;
     justify-content: center;
-    /*position; !* ✅ stays on screen *!*/
-    bottom: 0;
-    left: 0;
+    overflow: hidden;
+    font-weight: bolder;
+    margin-top: 0;
+    /*margin-bottom: -2rem;*/
+
 }
+
+.text-back {
+    color: darkgray;
+    position: absolute;
+    /*top: 7px;    !* shadow offset down *!*/
+    bottom: 2%;
+    left: .5%;
+    /*left: 50px;   !* shadow offset right *!*/
+    z-index: 0;
+    opacity: 0.8; /* softer look */
+    width: 100%;
+    bottom: -4rem;
+}
+
+.text-front {
+    color: white;
+    position: relative;
+    top: 20%;
+    z-index: 1;
+    width: 100%;
+    bottom: -4rem;
+}
+
+
+
