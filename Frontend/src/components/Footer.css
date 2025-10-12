@@ -7,8 +7,9 @@
     text-align: center;
     width: 100%;
     color: white;
+    /*max-height: 20vh;*/
     margin-top: 7rem; /* pushes it down when using flex layout */
-
+    height: 29.7vh;
 }
 
 .footerMaker a{
@@ -31,18 +32,19 @@
     text-transform: uppercase;
 }
 .logo{
-    font-size: 17rem;
-    letter-spacing: 2.7rem;  /* subtle spacing */
+    font-size: 20rem;
+    letter-spacing: 2.8rem;
     font-family: 'New Amsterdam', sans-serif;
     position: relative;
     display: flex;
-    line-height: 1;
+    line-height: 1.1;
     width: 100%;
     text-align: center;
     justify-content: center;
     overflow: hidden;
     font-weight: bolder;
-    margin-top: 0;
+    margin-top: 17px;
+    max-height: 15rem;
     /*margin-bottom: -2rem;*/
 
 }
@@ -50,12 +52,12 @@
 .text-back {
     color: darkgray;
     position: absolute;
-    /*top: 7px;    !* shadow offset down *!*/
-    bottom: 2%;
+    top: -2rem;    /* shadow offset down */
+    /*bottom: 10%;*/
     left: .5%;
     /*left: 50px;   !* shadow offset right *!*/
     z-index: 0;
-    opacity: 0.8; /* softer look */
+    opacity: 0.8;
     width: 100%;
     bottom: -4rem;
 }
@@ -63,10 +65,10 @@
 .text-front {
     color: white;
     position: relative;
-    top: 20%;
+    top: -1.5rem;
     z-index: 1;
     width: 100%;
-    bottom: -4rem;
+    bottom: -12rem;
 }
 
 
