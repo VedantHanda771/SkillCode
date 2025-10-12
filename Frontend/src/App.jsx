@@ -1,5 +1,6 @@
  import React, { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ClickSpark from "./common/ClickSpark.jsx";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FloatingSymbol from './components/FloatingSymbols.jsx';
@@ -69,6 +70,20 @@ export default function App() {
 
 
   return (
+
+      <ClickSpark
+
+          sparkColor='#fff'
+
+          sparkSize={10}
+
+          sparkRadius={15}
+
+          sparkCount={8}
+
+          duration={400}
+
+      >
     <Router>
       <Suspense
         fallback={
@@ -112,5 +127,6 @@ export default function App() {
         </ErrorBoundary>
       </Suspense>
     </Router>
+      </ClickSpark>
   );
 }
