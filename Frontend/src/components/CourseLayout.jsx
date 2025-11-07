@@ -63,21 +63,26 @@ const coursesData = [
 const CourseCard = ({ Course_name, Course_description, badges, Course_price }) => {
     const handlePayment = async () => {
         try {
-            // 1️⃣ Create a test order using your backend
-            const { data } = await axios.post("https://skillcode-1.onrender.com/api/payment/create-order", {
-                amount: Course_price,
-            });
+            // 1️⃣ Create a test order using your deployed backend
+            const { data } = await axios.post(
+                "https://skillcode-1.onrender.com/api/payment/create-order",
+                { amount: Course_price }
+            );
 
             // 2️⃣ Razorpay checkout setup
             const options = {
-                key: "rzp_test_ABC123xyz", // your TEST key
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // ✅ Correct env usage
                 amount: Course_price * 100,
                 currency: "INR",
                 name: "Skill Code",
                 description: `Buy ${Course_name}`,
                 order_id: data.orderId,
                 handler: async function (response) {
-                    const verifyRes = await axios.post("https://skillcode-1.onrender.com/api/payment/verify", response);
+                    // 3️⃣ Verify payment on backend
+                    const verifyRes = await axios.post(
+                        "https://skillcode-1.onrender.com/api/payment/verify",
+                        response
+                    );
                     if (verifyRes.data.success) {
                         alert(`✅ Payment successful for ${Course_name}`);
                     } else {
@@ -85,18 +90,19 @@ const CourseCard = ({ Course_name, Course_description, badges, Course_price }) =
                     }
                 },
                 prefill: {
-                    name: "Test User",
-                    email: "test@example.com",
-                    contact: "9999999999",
+                    name: "Vedant Handa",
+                    email: "vedanthanda123@gmail.com",
+                    contact: "9115858618",
                 },
-                theme: { color: "#ff4d00" },
+                theme: { color: "#7209b7" },
+                // ⚙️ Razorpay automatically enables Card, UPI, Wallet, Netbanking in test mode
             };
 
             const rzp = new window.Razorpay(options);
             rzp.open();
         } catch (error) {
             console.error("Payment Error:", error);
-            alert("Payment failed to start");
+            alert("❌ Payment failed to start. Please check console or backend logs.");
         }
     };
 
