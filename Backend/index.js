@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Razorpay = require('razorpay');
 // const path = require('path');
 
 // Load environment variables
@@ -393,29 +394,56 @@ app.get('/getUser/:username', (req, res) => {
     });
 });
 
+// Razorpay
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 
 
-// app.post('/submitCode', async (req, res) => {
-//   const { user, Q_id, code } = req.body;
-//
-//   if (!user || !questionId || !code) {
-//     return res.status(400).json({ message: 'Missing required fields' });
-//   }
-//
-//   try {
-//     // Save code to the database
-//     await CodeModel.create({
-//       user,
-//       Q_id,
-//       code,
-//       createdAt: new Date(),
-//     });
-//     res.status(200).json({ message: 'Code saved successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error saving code', error });
-//   }
-// });
+
+// Route to create a new order
+app.post("/api/payment/create-order", async (req, res) => {
+    try {
+        const { amount } = req.body;
+
+        const options = {
+            amount: amount * 100, // Amount in paise (₹1 = 100 paise)
+            currency: "INR",
+            receipt: "receipt_" + Date.now(),
+        };
+
+        const order = await razorpay.orders.create(options);
+        res.json({ orderId: order.id });
+    } catch (error) {
+        console.error("Error creating Razorpay order:", error);
+        res.status(500).json({ error: "Failed to create order" });
+    }
+});
+
+// Route to verify payment (optional but good practice)
+app.post("/api/payment/verify", async (req, res) => {
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const crypto = require("crypto");
+
+        const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
+        hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
+        const generatedSignature = hmac.digest("hex");
+
+        if (generatedSignature === razorpay_signature) {
+            res.json({ success: true, message: "Payment verified successfully" });
+        } else {
+            res.status(400).json({ success: false, message: "Payment verification failed" });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error verifying payment" });
+    }
+});
+
+
+
 
 
 // Endpoint to get the logged-in user's profile
