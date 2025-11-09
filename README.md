@@ -83,6 +83,9 @@ SkillCode is a web-based application designed to replicate and enhance the funct
    MONGO_URI=<your-mongodb-connection-string>
    PORT=<your-port-number>
    JWT_SECRET=<your-secret>
+   VITE_BACKEND_URL=<your-url>
+   VITE_RAZORPAY_KEY_ID=<your-id-key>
+   VITE_RAZORPAY_KEY_SECRET=<your-razorpay-secret>
    ```
 
 5. Start the development server:
