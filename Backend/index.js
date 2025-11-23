@@ -4,14 +4,17 @@ const cors = require('cors');
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Razorpay = require('razorpay');
 const morgan = require('morgan');
+const User = require('./models/User');
+const Question = require('./models/Question');
+const connectDB = require('./config/db');
 
 // const path = require('path');
+
 
 // Load environment variables
 dotenv.config();
@@ -30,54 +33,34 @@ if (!SECRET_KEY || !process.env.MONGODB_URL) {
 }
 
 // MongoDB connection
-mongoose
-  .connect(process.env.MONGODB_URL, {
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-    process.exit(1);
-  });
+// mongoose.connect(process.env.MONGODB_URL, {
+//     // useNewUrlParser: true,
+//     // useUnifiedTopology: true,
+//   })
+//   .then(() => console.log('Connected to MongoDB'))
+//   .catch((err) => {
+//     console.error('Error connecting to MongoDB:', err);
+//     process.exit(1);
+//   });
+//
+// // Ensure the temporary directory exists
+// const tempDir = path.join(__dirname, 'temp');
+// if (!fs.existsSync(tempDir)) {
+//   fs.mkdirSync(tempDir);
+// }
 
-// Ensure the temporary directory exists
-const tempDir = path.join(__dirname, 'temp');
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
-}
+connectDB();
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Schemas
-const questionSchema = new mongoose.Schema({
-  Q_name: { type: String, required: true },
-  Q_explanation: { type: String, required: true },
-  Q_input: { type: String, required: true },
-  Q_output: { type: String, required: true },
-  TypeOfQues: { type: String, required: true },
-  Solved: { type: String, default: 'No' },
-  Comp_name: { type: String, required: true },
-});
 
-const userSchema = new mongoose.Schema(
-  {
-    U_name: { type: String, required: true },
-    U_email: { type: String, required: true, unique: true },
-    U_dob: { type: Date, required: true },
-    password: { type: String, required: true },
-    Status: { type: String, default: 'active' },
-    softDelete: { type: String, default: 'no' },
-  },
-  { timestamps: true }
-);
 
 app.use(morgan('dev'));
 // Models
-const Question = mongoose.model('Question', questionSchema);
-const User = mongoose.model('User', userSchema);
+// const Question = mongoose.model('Question', questionSchema);
+// const User = mongoose.model('User', userSchema);
 
 const authenticateJWT = (req, res, next) => {
   // Extract the token from the "Authorization" header
@@ -321,42 +304,42 @@ app.put('/profile', authenticateJWT, async (req, res) => {
 
 
 // Course Schema
-const courseSchema = new mongoose.Schema({
-  Course_id: { type: String, required: true, unique: true },
-  Course_name: { type: String, required: true },
-  Course_price: { type: Number, required: true },
-  Course_description: { type: String, required: true },
-  Status: { type: String, default: 'active' },
-  SoftDelete: { type: String, default: 'no' },
-});
+// const courseSchema = new mongoose.Schema({
+//   Course_id: { type: String, required: true, unique: true },
+//   Course_name: { type: String, required: true },
+//   Course_price: { type: Number, required: true },
+//   Course_description: { type: String, required: true },
+//   Status: { type: String, default: 'active' },
+//   SoftDelete: { type: String, default: 'no' },
+// });
 
-// Course Model
-const Course = mongoose.model('Course', courseSchema);
-
-// Endpoint to fetch all courses
-app.get('/api/courses', async (req, res) => {
-  try {
-    const courses = await Course.find({ SoftDelete: 'no', Status: 'active' }); // Fetch only active courses not soft-deleted
-    res.status(200).json(courses);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Endpoint to fetch detailed information about a single course by ID
-app.get('/api/courses/:id', async (req, res) => {
-  try {
-    const course = await Course.findOne({ Course_id: req.params.id, SoftDelete: 'no' });
-
-    if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
-    }
-
-    res.status(200).json(course);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// // Course Model
+// const Course = mongoose.model('Course', courseSchema);
+//
+// // Endpoint to fetch all courses
+// app.get('/api/courses', async (req, res) => {
+//   try {
+//     const courses = await Course.find({ SoftDelete: 'no', Status: 'active' }); // Fetch only active courses not soft-deleted
+//     res.status(200).json(courses);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+//
+// // Endpoint to fetch detailed information about a single course by ID
+// app.get('/api/courses/:id', async (req, res) => {
+//   try {
+//     const course = await Course.findOne({ Course_id: req.params.id, SoftDelete: 'no' });
+//
+//     if (!course) {
+//       return res.status(404).json({ error: 'Course not found' });
+//     }
+//
+//     res.status(200).json(course);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Admin Endpoint to Add a Question
 app.post('/questions', authenticateJWT, async (req, res) => {
