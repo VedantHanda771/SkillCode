@@ -9,6 +9,8 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Razorpay = require('razorpay');
+const morgan = require('morgan');
+
 // const path = require('path');
 
 // Load environment variables
@@ -72,6 +74,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+app.use(morgan('dev'));
 // Models
 const Question = mongoose.model('Question', questionSchema);
 const User = mongoose.model('User', userSchema);
