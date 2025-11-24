@@ -49,7 +49,10 @@ app.use(morgan('dev'));
 
 
 
-
+const tempDir = path.join(__dirname, 'temp');
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir);
+}
 
 
 
