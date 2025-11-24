@@ -8,8 +8,26 @@ function ProblemSet() {
 
     useEffect(() => {
         const fetchQuestions = async () => {
+            const token = localStorage.getItem('authToken');
+
+            if(!token){
+                window.location.href = '/login';
+                return;
+            }
+
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/Problems`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/Problems`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+
+                if(response.status === 403 || response.status === 401){
+                    window.location.href = '/login';
+                    return;
+                }
+
+
                 const data = await response.json();
                 if (response.ok) {
                     setQuestions(data);
