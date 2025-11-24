@@ -13,7 +13,9 @@ const User = require('./models/User');
 const Question = require('./models/Question');
 const connectDB = require('./config/db');
 const authenticateJWT  = require('./middleware/auth.middleware');
-
+const codeRoutes = require('./routes/code.routes');
+const {runCode} = require("./controllers/code.controller");
+const problemRoutes = require('./routes/problem.routes');
 // const path = require('path');
 
 
@@ -22,7 +24,7 @@ dotenv.config();
 
 // Initialize express app
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.JWT_SECRET;
 
 const _dirname = path.resolve();
@@ -57,93 +59,14 @@ if (!fs.existsSync(tempDir)) {
 
 
 // Endpoint to execute code
-app.post('/run', (req, res) => {
-  const { language, code, input } = req.body;
+app.use("/run", runCode);
 
-  if (!language || !code) {
-    return res.status(400).json({ error: 'Language and code are required.' });
-  }
-
-  const inputFilePath = path.join(tempDir, 'input.txt');
-  const codeFilePath = path.join(tempDir, 'code');
-  const timeoutDuration = 5000;
-
-  // Write input to a file if provided
-  if (input) fs.writeFileSync(inputFilePath, input);
-
-  let command = '';
-  if (language === 'javascript') {
-    command = `node -e "${code.replace(/"/g, '\\"')}" < "${inputFilePath}"`;
-  } else if (language === 'python') {
-    fs.writeFileSync(`${codeFilePath}.py`, code);
-    command = `python3 "${codeFilePath}.py" < "${inputFilePath}"`;
-  } else if (language === 'cpp') {
-    fs.writeFileSync(`${codeFilePath}.cpp`, code);
-    command = `g++ "${codeFilePath}.cpp" -o "${codeFilePath}" && "${codeFilePath}" < "${inputFilePath}"`;
-  } else if (language === 'java') {
-    fs.writeFileSync(`${codeFilePath}.java`, code);
-    command = `javac "${codeFilePath}.java" && java -cp "${tempDir}" ${path.basename(codeFilePath)} < "${inputFilePath}"`;
-  } else {
-    return res.status(400).json({ error: 'Unsupported language.' });
-  }
-
-  console.log(`Executing: ${command}`);
-  const execProcess = exec(command, { timeout: timeoutDuration }, (error, stdout, stderr) => {
-    try {
-      // Cleanup temporary files except input.txt
-      if (language === 'python' && fs.existsSync(`${codeFilePath}.py`)) {
-        fs.unlinkSync(`${codeFilePath}.py`);
-      } else if (language === 'cpp') {
-        if (fs.existsSync(`${codeFilePath}.cpp`)) fs.unlinkSync(`${codeFilePath}.cpp`);
-        if (fs.existsSync(codeFilePath)) fs.unlinkSync(codeFilePath);
-      } else if (language === 'java') {
-        if (fs.existsSync(`${codeFilePath}.java`)) fs.unlinkSync(`${codeFilePath}.java`);
-        if (fs.existsSync(path.join(tempDir, 'code.class'))) fs.unlinkSync(path.join(tempDir, 'code.class'));
-      }
-      // Do not delete input.txt anymore
-      // if (input && fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
-    } catch (cleanupError) {
-      console.error('Cleanup Error:', cleanupError.message);
-    }
-
-    if (error) {
-      console.error('Execution Error:', stderr || error.message);
-      return res.status(500).json({ error: stderr || error.message });
-    }
-
-    res.json({ output: stdout });
-  });
-
-  execProcess.on('timeout', () => {
-    console.log('Code execution timed out.');
-    res.status(408).json({ error: 'Code execution timed out.' });
-    execProcess.kill();
-  });
-});
 
 
 
 // Endpoint to fetch all questions
-app.get('/api/problems', async (req, res) => {
-  try {
-    const problems = await Question.find();
-    res.json(problems);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+app.use("/api/problems", problemRoutes);
 
-// Endpoint to fetch a single problem by name
-app.get('/api/problems/:name', async (req, res) => {
-  try {
-    const problem = await Question.findOne({ Q_name: decodeURIComponent(req.params.name) });
-    if (!problem) return res.status(404).json({ error: 'Problem not found' });
-
-    res.json(problem);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // Signup Endpoint
 app.post('/signup', async (req, res) => {
