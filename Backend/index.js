@@ -16,6 +16,7 @@ const authenticateJWT  = require('./middleware/auth.middleware');
 const codeRoutes = require('./routes/code.routes');
 const {runCode} = require("./controllers/code.controller");
 const problemRoutes = require('./routes/problem.routes');
+const authRoutes = require('./routes/auth.routes');
 // const path = require('path');
 
 
@@ -51,11 +52,6 @@ app.use(morgan('dev'));
 
 
 
-const tempDir = path.join(__dirname, 'temp');
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
-}
-
 
 
 // Endpoint to execute code
@@ -69,24 +65,25 @@ app.use("/api/problems", problemRoutes);
 
 
 // Signup Endpoint
-app.post('/signup', async (req, res) => {
-  const { U_name, U_email, U_dob, password } = req.body;
-
-  try {
-    const existingUser = await User.findOne({ U_email });
-    if (existingUser) return res.status(400).json({ error: 'Email already registered' });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({ U_name, U_email, U_dob, password: hashedPassword });
-    await newUser.save();
-
-    const token = jwt.sign({ U_id: newUser._id }, SECRET_KEY, { expiresIn: '1h' });
-    res.status(201).json({ message: 'User created successfully', token });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+app.use("/", authRoutes);
+// app.post('/signup', async (req, res) => {
+//   const { U_name, U_email, U_dob, password } = req.body;
+//
+//   try {
+//     const existingUser = await User.findOne({ U_email });
+//     if (existingUser) return res.status(400).json({ error: 'Email already registered' });
+//
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//
+//     const newUser = new User({ U_name, U_email, U_dob, password: hashedPassword });
+//     await newUser.save();
+//
+//     const token = jwt.sign({ U_id: newUser._id }, SECRET_KEY, { expiresIn: '1h' });
+//     res.status(201).json({ message: 'User created successfully', token });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 app.post('/admin/addquestion', async (req, res) => {
   const {
